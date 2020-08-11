@@ -14,6 +14,7 @@ scikit-learn = "*"
 pandas = "*"
 matplotlib = "*"
 seaborn = "*"
+lightgbm = "*"
 
 [requires]
 python_version = "3.8"
