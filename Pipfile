@@ -15,6 +15,7 @@ pandas = "*"
 matplotlib = "*"
 seaborn = "*"
 lightgbm = "*"
+kaggle = "*"
 
 [requires]
 python_version = "3.8"
