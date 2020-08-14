@@ -2,7 +2,7 @@
 A bunch of files, notebooks, projects, etc. for the [Kaggle Credit Risk Competition](https://www.kaggle.com/c/home-credit-default-risk/).
 
 ## Competitors
-Feel free to steal our ideas and work. You're still going down.
+Feel free to steal our ideas and work. You're still going down. Unless we just aren't good enough.
 
 ## Getting Started
 
