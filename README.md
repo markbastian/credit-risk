@@ -1,6 +1,9 @@
 # [Kaggle Credit Risk Competition](https://www.kaggle.com/c/home-credit-default-risk/)
 A bunch of files, notebooks, projects, etc. for the [Kaggle Credit Risk Competition](https://www.kaggle.com/c/home-credit-default-risk/).
 
+## Competitors
+Feel free to steal our ideas and work. You're still going down.
+
 ## Getting Started
 
  * Install [pipenv](https://pipenv-fork.readthedocs.io/en/latest/) so that your Python life won't be a complete disaster.
