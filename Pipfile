@@ -17,6 +17,7 @@ seaborn = "*"
 lightgbm = "*"
 kaggle = "*"
 tensorflow = "*"
+xgboost = "*"
 
 [requires]
 python_version = "3.8"
