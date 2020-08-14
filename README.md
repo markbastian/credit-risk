@@ -6,7 +6,7 @@ A bunch of files, notebooks, projects, etc. for the [Kaggle Credit Risk Competit
  * Install [pipenv](https://pipenv-fork.readthedocs.io/en/latest/) so that your Python life won't be a complete disaster.
  * Set up a kaggle account and [configure your credentials for downloading data](https://github.com/Kaggle/kaggle-api#api-credentials). You may also [install the `kaggle` command line tool](https://github.com/Kaggle/kaggle-api) if you wish but it is installed in this virtualenv.
  * Execute the `download_data.sh` script to download the archive.
- * Unzip the above data file in a parallel folder named `input`. In other words, the input folder will be in the same folder as the credit-risk folder.
+ * Unzip the above data file in a parallel folder named `input`. In other words, the input folder will be in the same folder as the credit-risk folder. The data files will be in the input folder in a folder named `home-credit-default-risk`.
  * Execute `run_jupyter.sh` to launch Jupyter.
  * Open the `baseline.ipynb` to see the baseline model or `Start Here_ A Gentle Introduction.ipynb` for a full rundown.
  * Suggested: Make a notebook under your username in this repo. Feel free to fork, PR, merge, etc.
