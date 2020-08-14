@@ -1,4 +1,5 @@
-# Kaggle Credit Risk Competition
+# [Kaggle Credit Risk Competition](https://www.kaggle.com/c/home-credit-default-risk/)
+A bunch of files, notebooks, projects, etc. for the [Kaggle Credit Risk Competition](https://www.kaggle.com/c/home-credit-default-risk/).
 
 ## Getting Started
 
@@ -29,3 +30,16 @@ submission, fi, metrics = lgb.model(app_train, app_test)
 print('Baseline metrics')
 print(metrics)
 ```
+
+## Notes, Tips, Etc.
+
+ * [This is a video](https://www.youtube.com/watch?v=7665INW4I5g&feature=youtu.be) from the competition winners.
+ * Most winners are NOT using Neural Networks. They still use ensemble classifiers like:
+   * [lightgbm.LGBMClassifier](https://lightgbm.readthedocs.io/en/latest/pythonapi/lightgbm.LGBMClassifier.html)
+   * [XGBoost](https://xgboost.readthedocs.io/en/latest/)
+ * The winners suggest using a combination of Stacking and Voting [ensembles](https://scikit-learn.org/stable/modules/classes.html#module-sklearn.ensemble):
+   * [StackingClassifier](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.StackingClassifier.html)
+   * [VotingClassifier](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.VotingClassifier.html)
+ * We should check out auto [Hyperparameter Optimizers](https://neptune.ai/blog/scikit-optimize):
+   * [forest_minimize](https://scikit-optimize.github.io/stable/modules/generated/skopt.forest_minimize.html)
+   * [gp_minimize](https://scikit-optimize.github.io/stable/modules/generated/skopt.gp_minimize.html)
