@@ -16,6 +16,7 @@ matplotlib = "*"
 seaborn = "*"
 lightgbm = "*"
 kaggle = "*"
+tensorflow = "*"
 
 [requires]
 python_version = "3.8"

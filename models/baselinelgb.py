@@ -1,38 +1,33 @@
 from sklearn.model_selection import KFold
 from sklearn.metrics import roc_auc_score
-from sklearn.preprocessing import LabelEncoder
 import lightgbm as lgb
-import gc
 import numpy as np
 import pandas as pd
 
+# Revolving use of unsecured lines
+# Age
+# Times past due 30-60
+# Times past due 60-90
+# Times 90+
+# Debt Ratio
+# Monthly Income
+# Number of open credit lines and loans
+# Number of real estate loans and lines
+# Number of dependents
+# XGBoost
+# NaiveBayes & Logistic Regression might be a try, but I think they used more feature engineering on these
+# Feture engineering didn't impact tree based methods very much
+# Impute with -99999
+# Stacking and Voting is better than ensembles ***
+# https://scikit-learn.org/stable/modules/classes.html#module-sklearn.ensemble
+# https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.VotingClassifier.html
+# https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.StackingClassifier.html#sklearn.ensemble.StackingClassifier
+#
+# 0.0001 deltas to move higher!
+# MUST do cross validation
+# Check out sklearn.neural_network.BernoulliRBM https://scikit-learn.org/stable/modules/generated/sklearn.neural_network.BernoulliRBM.html
 
 def model(training_data, testing_data, n_folds=5):
-    """Train and test a light gradient boosting model using
-    cross validation.
-
-    Parameters
-    --------
-        training_data (pd.DataFrame):
-            dataframe of training features to use
-            for training a model. Must include the TARGET column.
-        testing_data (pd.DataFrame):
-            dataframe of testing features to use
-            for making predictions with the model.
-        n_folds (int, default = 5): number of folds to use for cross validation
-
-    Return
-    --------
-        submission (pd.DataFrame):
-            dataframe with `SK_ID_CURR` and `TARGET` probabilities
-            predicted by the model.
-        feature_importances (pd.DataFrame):
-            dataframe with the feature importances from the model.
-        valid_metrics (pd.DataFrame):
-            dataframe with training and validation metrics (ROC AUC) for each fold and overall.
-    """
-
-    # Extract the labels for training
     y_train = training_data['TARGET']
 
     # Remove the feature_labels and target
@@ -81,40 +76,35 @@ def model(training_data, testing_data, n_folds=5):
         valid_features, valid_labels = X_train[valid_indices], y_train[valid_indices]
 
         # Create the model
-        the_model = lgb.LGBMClassifier(n_estimators=10000, objective='binary',
-                                       class_weight='balanced', learning_rate=0.05,
-                                       reg_alpha=0.1, reg_lambda=0.1,
-                                       subsample=0.8, n_jobs=-1, random_state=50)
+        model = lgb.LGBMClassifier(n_estimators=10000, objective='binary',
+                                   class_weight='balanced', learning_rate=0.05,
+                                   reg_alpha=0.1, reg_lambda=0.1,
+                                   subsample=0.8, n_jobs=-1, random_state=50)
 
         # Train the model
-        the_model.fit(train_features, train_labels, eval_metric='auc',
-                      eval_set=[(valid_features, valid_labels), (train_features, train_labels)],
-                      eval_names=['valid', 'train'], categorical_feature='auto',
-                      early_stopping_rounds=100, verbose=200)
+        model.fit(train_features, train_labels, eval_metric='auc',
+                  eval_set=[(valid_features, valid_labels), (train_features, train_labels)],
+                  eval_names=['valid', 'train'], categorical_feature='auto',
+                  early_stopping_rounds=100, verbose=200)
 
         # Record the best iteration
-        best_iteration = the_model.best_iteration_
+        best_iteration = model.best_iteration_
 
         # Record the feature importances
-        feature_importance_values += the_model.feature_importances_ / k_fold.n_splits
+        feature_importance_values += model.feature_importances_ / k_fold.n_splits
 
         # Make predictions
-        test_predictions += the_model.predict_proba(X_test, num_iteration=best_iteration)[:, 1] / k_fold.n_splits
+        test_predictions += model.predict_proba(X_test, num_iteration=best_iteration)[:, 1] / k_fold.n_splits
 
         # Record the out of fold predictions
-        out_of_fold[valid_indices] = the_model.predict_proba(valid_features, num_iteration=best_iteration)[:, 1]
+        out_of_fold[valid_indices] = model.predict_proba(valid_features, num_iteration=best_iteration)[:, 1]
 
         # Record the best score
-        valid_score = the_model.best_score_['valid']['auc']
-        train_score = the_model.best_score_['train']['auc']
+        valid_score = model.best_score_['valid']['auc']
+        train_score = model.best_score_['train']['auc']
 
         valid_scores.append(valid_score)
         train_scores.append(train_score)
-
-        # Clean up memory
-        gc.enable()
-        del the_model, train_features, valid_features
-        gc.collect()
 
     # Make the submission dataframe
     submission = pd.DataFrame({'SK_ID_CURR': test_ids, 'TARGET': test_predictions})
